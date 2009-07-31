@@ -1,0 +1,9 @@
+---
+title: Reptile released as a gem!
+inMenu: false
+---
+h2. No shortage of exclamation points, we're gemified!
+
+Well, an eternity and two interested parties later, we've (I have) got a gem on ruby forge.  I dance hither and thither, playing with the newgem gem, the rubyforge gem, ruby 1.9.  Yak shaving.  Almost wished I was using CPAN.  But its out there.
+
+Open source ain't easy, but the best advice I've heard is "just get it out there," so that is what I am going for.

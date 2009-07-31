@@ -1,0 +1,23 @@
+---
+title: Setup
+inMenu: true
+orderInfo: 40
+---
+
+h2. Setup
+
+h3. Replication
+
+Clearly, before you setup monitoring for your replication, it would be nice to actually have a master/slave replication already in place to monitor. But who am I to tell you how to do things.  Replication in MySQL is actually easy to set up, but a little fragile, which is why a monitor comes in handy. Here are some links to help you get started with replication.
+
+<ul>
+  <li><a href="http://dev.mysql.com/doc/refman/5.0/en/replication.html">MySQL 5.0 Replication</a></li>
+  <li><a href="http://www.oreilly.com/catalog/hpmysql/">Oreilly: "High Performance MySQL"</a></li>
+  <li><a href="http://jeremy.zawodny.com/mysql/managing-mysql-replication.html">Managing MySQL Replication</a></li>
+</ul>
+
+h3. Setting up Monitoring
+
+MySQL allows for fairly fine-grained permissions, and while you could always run everything as your root MySQL user, Reptile will at least facilitate using a better security policy. This means using users with specific permissions for specific tasks.  In addition to setting up some new users, Reptile requires a new database/table in order to read and write "<a href="terms/heartbeat.html">Heartbeats</a>," which is the best look at the "real time" latency of your system. We'll also try to help with that.
+
+But give me some time!

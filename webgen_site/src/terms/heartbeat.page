@@ -1,0 +1,19 @@
+---
+title: Heartbeat
+inMenu: false
+---
+
+h2. What is a Heartbeat?
+
+A heartbeat is a way to monitor the "pulse" of your replication, and give you a reliable look at the "real time" latency of your replication.  Heartbeats work as follows
+
+<ul>
+  <li>Write a heartbeat timestamp to the master</li>
+  <li>Read the most recent heartbeat timestamp that was replicated to the slave</li>
+  <li>Compare the replicated timestamp to the current time.</li>
+  <li>Ooola: The time it took to replicate a row from the master to the slave.  The latency of the replication.</li>
+</ul>
+
+There is also a little timing overhead. It might take you a couple seconds to disconnect from the master, connect to the slave, and read the heartbeat, but that should be minimal.
+
+Also, just because your heartbeats are replicating does not necessarily mean all your data is up to date, but it does mean replication is working.  A lot of changes to the master, especially with lots of data (binary blobs or whatever) will take some time to transfer to the slave machine and then run.

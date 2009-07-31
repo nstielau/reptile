@@ -1,0 +1,13 @@
+---
+title: Homepage
+inMenu: true
+orderInfo: 0
+directoryName: Reptile
+---
+h2. Reptile
+
+Welcome to Reptile!
+
+Reptile is an easy to use utility that will monitor your MySQL replication, so you can forget about it and focus on the good stuff. For a little more info, check out the <a href="features.html">features</a> or check out the <a href="http://reptile.rubyforge.org/doc/">RDoc</a>.
+
+Reptile will hopefully work for you, but I would bet (*sigh*) that it is really just a starting place.  Take a look at the code, and hopefully you can find something that will work for you.

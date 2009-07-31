@@ -1,0 +1,67 @@
+---
+title: Features
+inMenu: true
+orderInfo: 20
+---
+h2. Features
+
+h3. Redundant replication checks: 
+
+<ul>
+<li>checking MySQL 'SHOW SLAVE STATUS'</li>
+<li>diffing table row counts</li>
+<li>comparing '<a href="terms/heartbeat.html">heartbeat</a>' timestamps</li>
+</ul>
+
+h3. Easy Email Alerts
+
+<ul>
+<li>Send reports and alerts via email or SMS</li>
+<li>Change alert thresholds, i.e. row count difference before an email alert, real-time latency before alert</li>
+</ul>
+
+h3. Easy to run.
+
+<pre>
+[nick@s34 ~]$ replication_status -h
+Usage: replication_status [path_to_config_file]
+    -h, --help                       Displays this help info
+    -s, --status                     Displays the slave status
+    -d, --diff                       Checks the row count difference between master and slave
+    -r, --report                     Sends a report email
+    -b, --heartbeat                  Checks the heartbeat timestamp difference between master and slave
+[nick@s34 ~]$ replication_status -s
+  * a_database slave is up and running
+  * b_database slave is up and running
+  * c_database slave is up and running
+</pre>
+  
+h3. Easy to configure with a YML file
+
+<pre> 
+
+config:
+  heartbeart_threshold: 10
+  delay_threshold_secs: 360
+  row_difference_threshold: 10
+
+database_01:
+  master:
+    password: test_pass
+    username: read_only_user
+    adapter:  mysql
+    database: db01
+    host:     db1.somehost.com
+    port:     3306
+    socket:   /tmp/mysql.sock
+
+  slave:
+    password: test_pass
+    username: read_only_user
+    adapter:  mysql
+    database: db01
+    host:     localhost
+    port:     3307
+    socket:   /var/lib/mysql/db01.sock
+    
+</pre>

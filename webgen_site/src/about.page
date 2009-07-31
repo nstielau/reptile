@@ -1,0 +1,12 @@
+---
+title: About
+inMenu: true
+orderInfo: 10
+---
+h2. About Reptile
+
+Reptile is an easy to use utility that will monitor your MySQL replication, so you can forget about it and focus on the good stuff.
+
+h2. About the Author
+
+The author is just trying to get by. Hit me up at nick.stielau_at_gmail.com if you have any questions, ideas or you actually want to use this thing.
