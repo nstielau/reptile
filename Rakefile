@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + '/lib/reptile'
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
 $hoe = Hoe.new('reptile', Reptile::VERSION) do |p|
-  p.developer('FIXME full name', 'FIXME email')
+  p.developer('Nick Stielau', 'nick.stielau@gmail.com')
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
   p.post_install_message = 'PostInstall.txt'
   p.rubyforge_name       = p.name
