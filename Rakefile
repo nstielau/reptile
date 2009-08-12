@@ -22,7 +22,7 @@ end
 
 desc "Upload current documentation to Rubyforge"
 task :upload_docs => [:redocs] do
-  sh "scp -r doc/* nstielau@rubyforge.org:/var/www/gforge-projects/reptile/doc/"
+  sh "scp -r doc/* nstielau@rubyforge.org:/var/www/gforge-projects/reptile/doc"
 end
 
 desc "Upload current documentation to Rubyforge"

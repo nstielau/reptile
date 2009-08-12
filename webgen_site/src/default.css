@@ -14,7 +14,7 @@ background-color:#ffffff;color:#303030;margin:0 auto;padding:1px 5px;width:760px
 /***** Header *****/
 
 #header {
-color:#505050;background:#000000 url(images/frog.jpg) bottom right no-repeat;height:155px;margin:0 0 10px 0;padding:0;
+color:#505050;background:#000000 url(images/front.jpg) bottom right no-repeat;height:250px;margin:0 0 10px 0;padding:0;
 }
 
 #header h1 {

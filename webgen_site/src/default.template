@@ -26,6 +26,9 @@
 
         <div class="announce">
           <h2>Latest news:</h2>
+          <p><strong>08.10.2009:</strong><br />
+          Reptile moved to github</p>
+          <p class="textright"><a href="/news/reptile_moved_to_github.html">Read more &raquo;</a></p>
           <p><strong>06.25.2009:</strong><br />
           Reptile's released as a gem!</p>
           <p class="textright"><a href="/news/reptiles_released_as_a_gem.html">Read more &raquo;</a></p>
