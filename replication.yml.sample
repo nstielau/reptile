@@ -1,0 +1,24 @@
+config:
+  heartbeart_threshold: 10
+  delay_threshold_secs: 360
+  row_difference_threshold: 10
+
+database_01:
+  master:
+    password: test_pass
+    username: read_only_user
+    adapter:  mysql
+    database: db01
+    host:     db1.somehost.com
+    port:     3306
+    socket:   /tmp/mysql.sock
+
+  slave:
+    password: test_pass
+    username: read_only_user
+    adapter:  mysql
+    database: db01
+    host:     localhost
+    port:     3307
+    socket:   /var/lib/mysql/db01.sock
+

@@ -6,6 +6,21 @@ Reptile is an easy to use utility that will monitor your MySQL replication, so y
 
 A mysql replication setup.
 
+== SYNOPSIS
+
+  [nick@s34 ~]$ replication_status -h
+  Usage: replication_status [path_to_config_file]
+      -h, --help                       Displays this help info
+      -s, --status                     Displays the slave status
+      -d, --diff                       Checks the row count difference between master and slave
+      -r, --report                     Sends a report email
+      -b, --heartbeat                  Checks the heartbeat timestamp difference between master and slave
+  [nick@s34 ~]$ replication_status -s
+    * a_database slave is up and running
+    * b_database slave is up and running
+    * c_database slave is up and running
+
+
 == INSTALL:
 
 sudo gem install reptile
