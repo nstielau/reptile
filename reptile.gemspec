@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nick Stielau"]
-  s.date = %q{2009-08-12}
+  s.date = %q{2009-08-13}
   s.default_executable = %q{replication_status}
   s.description = %q{}
   s.email = ["nick.stielau@gmail.com"]
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{reptile}
   s.rubygems_version = %q{1.3.1}
-  s.summary = %q{}
+  s.summary = %q{Cold-blooded MySQL replication monitoring.}
   s.test_files = ["test/test_helper.rb", "test/test_reptile.rb"]
 
   if s.respond_to? :specification_version then

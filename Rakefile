@@ -10,6 +10,7 @@ $hoe = Hoe.new('reptile', Reptile::VERSION) do |p|
   p.post_install_message = 'PostInstall.txt'
   p.rubyforge_name       = p.name
   p.bin_files            = ["bin/replication_status"]
+  p.summary              = "Cold-blooded MySQL replication monitoring."
   p.extra_dev_deps = [
     ['newgem', ">= #{::Newgem::VERSION}"]
   ]
