@@ -39,7 +39,7 @@ module Reptile
     def self.diff_tables
       unsynced_dbs = 0
     
-      databases.each_pair do |name, roles|
+      databases.databases.each_pair do |name, roles|
         master, slave = roles['master'], roles['slave']
         deltas = DeltaMonitor.diff(name, master, slave)
                                   
@@ -54,14 +54,13 @@ module Reptile
     end
   
     def self.heartbeat
-      databases.each_key do |name|
-        Heartbeat.write(name, databases[name]['master'])
+      databases.masters.each_pair do |name, configs|
+        Heartbeat.write(name, configs)
       end
     
       overdue_slaves = 0
     
-      databases.each_key do |name|
-        db_configs = databases[name]['slave']
+      databases.slaves.each_pair do |name, db_configs|
         delay = Heartbeat.read(name, db_configs)
         if delay.nil?
           queue_replication_warning :host => name, 
