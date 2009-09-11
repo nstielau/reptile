@@ -19,5 +19,5 @@ require 'reptile/databases'
 require 'active_record'
 
 module Reptile
-  VERSION = '0.0.3'
+  VERSION = '0.0.4'
 end
