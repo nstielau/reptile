@@ -29,8 +29,7 @@ module Reptile
 
     # The user settings for a user that has global select privilidgess
     def self.user
-      raise "You need to specify a user!" if @user.nil?
-      @user
+      @user ||= {}
     end
     
     # Checks the value of the MySQL command "SHOW SLAVE STATUS".
