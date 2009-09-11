@@ -8,6 +8,8 @@ module Reptile
   # to be even easier.
   class Users
     def initialize(options)
+      return if options.nil?
+      
       @repl_user = options["replication_user"]
       @ro_user = options["ro_user"]
       @heartbeat_user = options["heartbeat_user"]

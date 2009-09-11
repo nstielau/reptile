@@ -22,15 +22,15 @@ private
 
     def get_masters
       masters = databases.dup
-      masters.each_key{|key| masters.delete(key) if masters[key]['master'].nil? }
-      masters.each_key{|key| masters[key] = masters[key]['master'] }
+      masters.each_key{|name| masters.delete(name) if masters[name]['master'].nil? }
+      masters.each_key{|name| masters[name] = masters[name]['master'] }
       masters
     end
     
     # TODO: make private
     def get_slaves
       dbs = databases.dup
-      dbs.each_key{|name| dbs.delete(key) if dbs[name]['slave'].nil? }
+      dbs.each_key{|name| dbs.delete(name) if dbs[name]['slave'].nil? }
       dbs.each_key{|name| dbs[name] = dbs[name]['slave'] }
       slaves = dbs
     end
