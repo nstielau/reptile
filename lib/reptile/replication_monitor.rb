@@ -117,6 +117,9 @@ module Reptile
       email.body += "  Server: #{options[:host]}\n"
       email.body += "  Databse: #{options[:database]}\n"
     
+      # Print out email body to STDOUT
+      puts email.body
+      
       send_email(email)
     end
   
