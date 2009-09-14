@@ -37,6 +37,10 @@ OptionParser.new do |opts|
   opts.on("-g", "--start_slaves", "Starts all slaves") do
     commands << 'start_slaves'
   end
+  
+  opts.on("-e", "--errors", "Show only errors.") do
+    commands << 'errors'
+  end
 
   begin
     opts.parse!(ARGV)
@@ -47,7 +51,7 @@ OptionParser.new do |opts|
   end
 end
 
-config_file = 'replication.yml'
+config_file = 'reptile.yml'
 
 if ARGV.empty? && !File.exists?(config_file)
   abort "Please specify the directory containing the '#{config_file}' file, e.g. `#{File.basename($0)} ~/repl'"

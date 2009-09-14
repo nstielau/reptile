@@ -1,3 +1,5 @@
+require 'logger'
+
 module Reptile
   # This monitor compares the row counts for each table for each master and slave.  
   class DeltaMonitor
@@ -12,15 +14,12 @@ module Reptile
       @user
     end
   
-    def self.open_log()
-      logFile = 'db_delta.log'
-      @logFileObj = File.open(logFile, "a")
+    def self.logger=(new_logger)
+      @logger = new_logger  
     end
-  
-    def self.log(msg)
-      open_log if @logFileObj.nil?
-      puts msg
-      @logFileObj.puts msg
+    
+    def self.get_logger
+      @logger ||= Logger.new(STDOUT)
     end
   
     # Retrieve the active database connection.  Nil of none exists.
@@ -39,28 +38,18 @@ module Reptile
 
       deltas= {}
       master_counts.each do |table, master_count|    
-        begin
-          delta = master_count.first.to_i - slave_counts[table].first.to_i
-          deltas[table] = delta
-        rescue Exception => e
-          puts "Error: #{e}"
-          puts "Master counts: #{master_counts.inspect}"
-          puts "Slave counts: #{slave_counts.inspect}"
-          puts
-          puts "Master count: #{master_count.inspect}"
-          puts "Slave count: #{slave_count.inspect}"
-          raise e
-        end
+        delta = master_count.first.to_i - slave_counts[table].first.to_i
+        deltas[table] = delta
       end
     
       print_deltas(db_name, deltas, master_configs)
     
       deltas
     rescue Exception => e
-      puts "Error: Caught #{e}"
-      puts "DB Name: #{db_name}"
-      puts "Master Configs: #{master_configs.inspect}"
-      puts "Slave Configs: #{slave_configs.inspect}"
+      get_logger.error "Error: Caught #{e}"
+      get_logger.error "DB Name: #{db_name}"
+      get_logger.error "Master Configs: #{master_configs.inspect}"
+      get_logger.error "Slave Configs: #{slave_configs.inspect}"
       raise e
     end
     
@@ -68,12 +57,12 @@ module Reptile
     def self.print_deltas(db_name, deltas, configs)
       non_zero_deltas = deltas.select{|table, delta| not delta.zero?}
       if non_zero_deltas.size.zero?
-        log "Replication counts A-OK for #{db_name} on #{configs['host']} @ #{Time.now}"
+        get_logger.info "Replication counts A-OK for #{db_name} on #{configs['host']} @ #{Time.now}"
       else
-        log "Replication Row Count Deltas for #{db_name} on #{configs['host']} @ #{Time.now}"
-        log "There #{non_zero_deltas.size > 1 ? 'are' : 'is'} #{non_zero_deltas.size} #{non_zero_deltas.size > 1 ? 'deltas' : 'delta'}"
+        get_logger.info "Replication Row Count Deltas for #{db_name} on #{configs['host']} @ #{Time.now}"
+        get_logger.info "There #{non_zero_deltas.size > 1 ? 'are' : 'is'} #{non_zero_deltas.size} #{non_zero_deltas.size > 1 ? 'deltas' : 'delta'}"
         non_zero_deltas.each do |table, delta|
-          log "  #{table} table: #{delta}" unless delta.zero?
+          get_logger.info "  #{table} table: #{delta}" unless delta.zero?
         end
       end
     end

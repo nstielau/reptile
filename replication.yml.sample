@@ -3,16 +3,20 @@ config:
   delay_threshold_secs: 360
   row_difference_threshold: 10
 
+# You can also set username/passwords here,
+# so you don't have to repeat them.
+#
 # users:
 #  ro_user: 
-#    username: 'ro_user'
-#    password: 'secret'
+#    username: ro_user
+#    password: secret
 #  heartbeat_user: 
+#    username: heartbeat_user
 #    password: secret
-#    username: ro_user
 #  replication_user: 
+#    username: repl_user
 #    password: secret
-#    username: ro_user
+
 
 database_01:
   master:

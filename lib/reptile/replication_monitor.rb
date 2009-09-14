@@ -1,7 +1,10 @@
+require 'logger'
+
 module Reptile
   class ReplicationMonitor
+    
     # Attempts to load the replication.yml configuration file.
-    def self.load_config_file(databases_file)
+    def self.load_config_file(databases_file)      
       @databases_file = databases_file
       yaml = YAML::load(File.read(@databases_file))
       @configs = yaml.delete('config')
@@ -35,9 +38,17 @@ module Reptile
     def self.users
       @users
     end
+    
+    def self.errors
+      get_logger.sev_threshold = Logger::ERROR
+      check_slaves
+      heartbeat
+      diff_tables
+    end
   
     def self.diff_tables
       unsynced_dbs = 0
+      DeltaMonitor.logger = get_logger
     
       databases.databases.each_pair do |name, roles|
         master, slave = roles['master'], roles['slave']
@@ -54,6 +65,8 @@ module Reptile
     end
   
     def self.heartbeat
+      Heartbeat.logger = get_logger
+      
       databases.masters.each_pair do |name, configs|
         Heartbeat.write(name, configs)
       end
@@ -84,7 +97,7 @@ module Reptile
     def self.check_slaves
       databases.slaves.each do |slave_name, slave_configs|
         status = Status.check_slave_status(slave_name, slave_configs)
-        puts "'#{slave_name}' is '#{status}'"
+        get_logger.info "'#{slave_name}' is '#{status}'"
         if status != Status.const_get(:RUNNING)
           queue_replication_warning :host => name, 
                                     :database => configs[:database], 
@@ -101,7 +114,7 @@ module Reptile
       email.body = ''
     
       if options[:delay]
-        email.body +=  "There was a #{delay} second replication latency, which is greater than the allowed latency of #{configs['delay_threshold_secs']} seconds"
+        email.body +=  "There was a #{options[:delay]} second replication latency, which is greater than the allowed latency of #{configs['delay_threshold_secs']} seconds"
       elsif options[:deltas]
         email.body += "The following tables have master/slave row count difference greater than the allowed #{configs['row_difference_threshold']}\n\n"
         options[:deltas].each do |table, delta|      
@@ -118,7 +131,7 @@ module Reptile
       email.body += "  Databse: #{options[:database]}\n"
     
       # Print out email body to STDOUT
-      puts email.body
+      get_logger.error email.body
       
       send_email(email)
     end
@@ -192,6 +205,9 @@ module Reptile
     end
   
     def self.send_email(email)
+      return unless configs['email_server'] && configs['email_port'] && configs['email_domain'] && 
+                    configs['email_password'] && configs['email_auth_type']
+      
       # TODO: could do Net::SMTP.respond_to?(enable_tls) ? enable_TLS : puts "Install TLS gem to use SSL/TLS"
       Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
       Net::SMTP.start(configs['email_server'], 
@@ -221,6 +237,12 @@ module Reptile
     #       Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
     #       send_email(email)
     #     end
+    end
+
+    private
+    
+    def self.get_logger
+      @@logger ||= Logger.new(STDOUT)
     end
 
   end

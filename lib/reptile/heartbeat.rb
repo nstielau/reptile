@@ -38,7 +38,7 @@ module Reptile
     def self.write(name, configs)
       self.connect(configs)
       heartbeat = Heartbeat.create(:unix_time => Time.now.to_i, :db_time => "NOW()")
-      log "Wrote heartbeat to #{name} at #{Time.at(heartbeat.unix_time)}"
+      get_logger.info "Wrote heartbeat to #{name} at #{Time.at(heartbeat.unix_time)}"
     end
 
     # Read the most recent heartbeat and return the delay in seconds, or nil if no heartbeat are found.
@@ -52,7 +52,7 @@ module Reptile
     
        # No heartbeats at all!
       if heartbeat.nil?
-        log "No heartbeats found on #{name} at #{Time.now}"
+        get_logger.info "No heartbeats found on #{name} at #{Time.now}"
         return nil;
       end
    
@@ -61,25 +61,20 @@ module Reptile
       delay = (Time.now - Time.at(heartbeat.unix_time)).round
       #delay = (Time.now - heartbeat.db_time)
 
-      log "Read heartbeat from #{name} at #{Time.at(heartbeat.unix_time)}. The delay is #{strfdelay(delay)}"
+      get_logger.info "Read heartbeat from #{name} at #{Time.at(heartbeat.unix_time)}. The delay is #{strfdelay(delay)}"
     
       delay
     end
    
+    def self.logger=(new_logger)
+      @logger = new_logger  
+    end
+    
+    def self.get_logger
+      @logger ||= Logger.new(STDOUT)
+    end
+    
 private
-   
-    # Open the 'heartbeat.log' file.
-    def self.open_log
-      logFile = 'heartbeat.log'
-      @logFileObj = File.open(logFile, "a")
-    end
-  
-    # Log a message, both to the file and standard out.
-    def self.log(msg)
-      open_log if @logFileObj.nil?
-      puts msg
-      @logFileObj.puts msg
-    end
     
     # Format the delay (in seconds) as a human-readable string.
     def self.strfdelay(delay)
