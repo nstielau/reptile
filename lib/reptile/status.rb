@@ -37,8 +37,7 @@ module Reptile
     def self.check_slave_status(name, configs)
       # TODO: Do this in Databases
       configs.delete("port")
-      configs['database'] = "information_schema"
-      Databases.connect(configs.merge(user)).execute('SHOW SLAVE STATUS').each do |row|
+      Databases.connect(configs.merge(user).merge('database' => 'information_schema')).execute('SHOW SLAVE STATUS').each do |row|
         if row =~ /Slave_SQL_Running/ && row =~ /No/
           return SQL_THREAD_DOWN
         elsif row =~ /Slave_IO_Running/ && row =~ /No/

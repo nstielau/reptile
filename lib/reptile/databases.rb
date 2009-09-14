@@ -44,7 +44,7 @@ private
       puts "****"
       puts "Error connecting to database: #{e}"
       puts "****"
-      puts YAML::dump(configs)
+      puts configs.inspect
       exit 1
     end
   end

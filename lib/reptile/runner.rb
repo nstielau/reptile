@@ -29,7 +29,7 @@ module Reptile
         configs.delete('port')
         configs.delete('host')
         # With activeRecord, you have to connect to some DB, even if you are acting on the server...
-        configs['database'] = 'information_schema'
+        configs['database'] = 'information_schema' unless configs['database']
         # TODO: Delete these somewhere else
         configs.delete('heartbeat')
         configs.delete('replication_user')

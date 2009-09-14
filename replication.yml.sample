@@ -3,6 +3,17 @@ config:
   delay_threshold_secs: 360
   row_difference_threshold: 10
 
+# users:
+#  ro_user: 
+#    username: 'ro_user'
+#    password: 'secret'
+#  heartbeat_user: 
+#    password: secret
+#    username: ro_user
+#  replication_user: 
+#    password: secret
+#    username: ro_user
+
 database_01:
   master:
     password: test_pass

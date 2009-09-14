@@ -28,23 +28,22 @@ module Reptile
     def self.user
       @user ||= {}
     end
-  
-    # Merge the connection settings in the configs parameter with HeartBeat defaults. 
+    
     def self.connect(configs)
-      ReplicationMonitor.connect(configs.merge(user))
+      Databases.connect(configs.merge(user).merge("database" => 'replication_monitor'))
     end
   
     # Write a heartbeat.
     # Thump thump.
     def self.write(name, configs)
-      connect(configs)
+      self.connect(configs)
       heartbeat = Heartbeat.create(:unix_time => Time.now.to_i, :db_time => "NOW()")
       log "Wrote heartbeat to #{name} at #{Time.at(heartbeat.unix_time)}"
     end
 
     # Read the most recent heartbeat and return the delay in seconds, or nil if no heartbeat are found.
     def self.read(name, configs)
-      connect(configs)
+      self.connect(configs)
     
       current_time = Time.now
 

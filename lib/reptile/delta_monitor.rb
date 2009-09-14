@@ -39,13 +39,29 @@ module Reptile
 
       deltas= {}
       master_counts.each do |table, master_count|    
-        delta = master_count.first.to_i - slave_counts[table].first.to_i
-        deltas[table] = delta
+        begin
+          delta = master_count.first.to_i - slave_counts[table].first.to_i
+          deltas[table] = delta
+        rescue Exception => e
+          puts "Error: #{e}"
+          puts "Master counts: #{master_counts.inspect}"
+          puts "Slave counts: #{slave_counts.inspect}"
+          puts
+          puts "Master count: #{master_count.inspect}"
+          puts "Slave count: #{slave_count.inspect}"
+          raise e
+        end
       end
     
       print_deltas(db_name, deltas, master_configs)
     
       deltas
+    rescue Exception => e
+      puts "Error: Caught #{e}"
+      puts "DB Name: #{db_name}"
+      puts "Master Configs: #{master_configs.inspect}"
+      puts "Slave Configs: #{slave_configs.inspect}"
+      raise e
     end
     
     # Prints stats about the differences in number of rows between the master and slave

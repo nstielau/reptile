@@ -84,6 +84,7 @@ module Reptile
     def self.check_slaves
       databases.slaves.each do |slave_name, slave_configs|
         status = Status.check_slave_status(slave_name, slave_configs)
+        puts "'#{slave_name}' is '#{status}'"
         if status != Status.const_get(:RUNNING)
           queue_replication_warning :host => name, 
                                     :database => configs[:database], 
