@@ -56,7 +56,7 @@ module Reptile
                                   
         egregious_deltas = deltas.select{|table, delta| delta > configs['row_difference_threshold'] }                           
         if egregious_deltas.size > 0
-          queue_replication_warning :host => master[:host], :database => master[:database], :deltas => egregious_deltas, :noticed_at => Time.now
+          queue_replication_warning :host => master["host"], :database => master["database"], :deltas => egregious_deltas, :noticed_at => Time.now
           unsynced_dbs += 1
         end
       end
@@ -99,7 +99,7 @@ module Reptile
         status = Status.check_slave_status(slave_name, slave_configs)
         get_logger.info "'#{slave_name}' is '#{status}'"
         if status != Status.const_get(:RUNNING)
-          queue_replication_warning :host => name, 
+          queue_replication_warning :host => slave_name, 
                                     :database => configs[:database], 
                                     :status_error => Status.get_error_message(status), 
                                     :noticed_at => Time.now
@@ -128,7 +128,7 @@ module Reptile
     
       email.body += "\n"
       email.body += "  Server: #{options[:host]}\n"
-      email.body += "  Databse: #{options[:database]}\n"
+      email.body += "  Database: #{options[:database]}\n"
     
       # Print out email body to STDOUT
       get_logger.error email.body
