@@ -17,8 +17,8 @@ module Reptile
       DeltaMonitor.user = users.ro_user
       Runner.databases = databases
       
-      raise "Please specify a delay theshold 'delay_threshold_secs: 360'" if @configs['delay_threshold_secs'].nil?
-      raise "Please specify a row delta theshold 'row_difference_threshold: 10'" if @configs['row_difference_threshold'].nil?
+      raise "Please specify a delay threshold 'delay_threshold_secs: 360'" if @configs['delay_threshold_secs'].nil?
+      raise "Please specify a row delta threshold 'row_difference_threshold: 10'" if @configs['row_difference_threshold'].nil?
       
     rescue Errno::EACCES => e
       puts "Unable to open config file: Permission Denied"

@@ -8,6 +8,9 @@ A mysql replication setup.
 
 == SYNOPSIS
 
+Put a config file at /etc/reptile.yml, /etc/reptile/reptile.yml, ./reptile.yml, or specify one on the command line.
+
+
   [nick@s34 ~]$ replication_status -h
   Usage: replication_status [path_to_config_file]
       -h, --help                       Displays this help info

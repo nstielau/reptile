@@ -51,19 +51,37 @@ OptionParser.new do |opts|
   end
 end
 
-config_file = 'reptile.yml'
-
-if ARGV.empty? && !File.exists?(config_file)
-  abort "Please specify the directory containing the '#{config_file}' file, e.g. `#{File.basename($0)} ~/repl'"
-elsif !ARGV.empty? && !File.exists?(ARGV.first)
-  abort "`#{ARGV.first}' does not exist."
-elsif !ARGV.empty? && !File.directory?(ARGV.first)
-  abort "`#{ARGV.first}' is not a directory."
-elsif !ARGV.empty? && ARGV.length > 1
-  abort "Too many arguments; please specify only the directory to #{File.basename($0)}."
+if !ARGV.empty? && ARGV.length > 1
+  abort "Too many arguments; please specify only the directory containing the 'reptile.yml' file, or a yml config file itself."
 end
 
-Reptile::ReplicationMonitor.load_config_file(ARGV.first.nil? ? config_file : "#{ARGV.first}/#{config_file}")
+config_file_name = "reptile.yml"
+config_file_locations = ["/etc/#{config_file_name}", "/etc/reptile/#{config_file_name}", "./#{config_file_name}"]
+config_location_param = ARGV.first
+
+config_file = nil
+if config_location_param
+  if File.directory?(config_location_param) && File.exist?(File.join(config_location_param, config_file_name))
+    config_file = File.join(config_location_param, config_file_name)
+  elsif File.exist?(config_location_param) && !File.directory?(config_location_param)
+    config_file = config_location_param
+  else
+    abort "Please specify the directory containing the '#{config_file_name}' file, or the config file itself." 
+  end
+else
+  config_file_locations.each do |f|
+    if File.exist?(f)
+      config_file = f
+      break
+    end
+  end
+  if config_file.nil?
+    abort "Couldn't find a config file at #{config_file_locations.join(', ')}"
+  end
+end
+
+
+Reptile::ReplicationMonitor.load_config_file(config_file)
 
 if (commands.include?('start_slaves') || commands.include?('stop_slaves'))
   Reptile::Runner.send(commands[0]) 
