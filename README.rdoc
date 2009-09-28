@@ -23,6 +23,34 @@ Put a config file at /etc/reptile.yml, /etc/reptile/reptile.yml, ./reptile.yml, 
     * b_database slave is up and running
     * c_database slave is up and running
 
+=== Super simple crontab setup
+
+  [nick@s34 ~]$ sudo crontab -l
+  Password:
+  MAILTO="user@example.com"
+  # Use the '-e' arg to only spit out errors, which will be sent out by crontab
+  */15 * * * * replication_status -e
+
+=== Setup SQL
+
+Run this SQL to setup the DBs/perms for Reptile.  Using different users, since each user requires significantly different permissions.  
+
+  GRANT REPLICATION SLAVE, REPLICATION CLIENT, SUPER ON *.* TO 'repl'@"localhost" IDENTIFIED BY 'repl_user_pass';
+  GRANT REPLICATION SLAVE, REPLICATION CLIENT, SUPER ON *.* TO 'repl'@"MONITOR_HOST_IP" IDENTIFIED BY 'repl_user_pass';
+
+  GRANT SELECT, REPLICATION CLIENT ON *.* TO 'ro_user'@"localhost" IDENTIFIED BY 'ro_user_pass';
+  GRANT SELECT, REPLICATION CLIENT ON *.* TO 'ro_user'@"MONITOR_HOST_IP" IDENTIFIED BY 'ro_user_pass';
+
+  CREATE DATABASE replication_monitor;
+
+  GRANT SELECT, INSERT, UPDATE, ALTER ON replication_monitor.* TO 'heartbeat_user'@"localhost" IDENTIFIED BY 'heartbeat_user_pass';
+  GRANT SELECT, INSERT, UPDATE, ALTER ON replication_monitor.* TO 'heartbeat_user'@"MONITOR_HOST_IP" IDENTIFIED BY 'heartbeat_user_pass';
+
+  CREATE TABLE replication_monitor.heartbeats (
+    unix_time INTEGER NOT NULL, 
+    db_time TIMESTAMP NOT NULL, 
+    INDEX time_idx(unix_time)
+  )
 
 == INSTALL:
 
