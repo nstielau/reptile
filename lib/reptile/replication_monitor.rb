@@ -128,7 +128,7 @@ module Reptile
     
       email.body += "\n"
       email.body += "  Server: #{options[:host]}\n"
-      email.body += "  Database: #{options[:database]}\n"
+      email.body += "  Database: #{options[:database]}\n" unless options[:database].blank?
     
       # Print out email body to STDOUT
       get_logger.error email.body
