@@ -14,7 +14,8 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = ["History.txt", "Manifest.txt", "PostInstall.txt", "README.rdoc"]
   s.files = ["History.txt", "Manifest.txt", "PostInstall.txt", "README.rdoc", "Rakefile", "bin/replication_status", "lib/reptile.rb", "lib/reptile/databases.rb", "lib/reptile/delta_monitor.rb", "lib/reptile/dtd.sql", "lib/reptile/heartbeat.rb", "lib/reptile/replication_monitor.rb", "lib/reptile/runner.rb", "lib/reptile/status.rb", "lib/reptile/users.rb", "script/console", "script/destroy", "script/generate", "test/test_helper.rb", "test/test_reptile.rb"]
   s.has_rdoc = true
-  s.homepage = %q{Reptile is an easy to use utility that will monitor your MySQL replication, so you can forget about it and focus on the good stuff.  It provides a utility for generate replication reports, and can email if replication appears to be failing.}
+  s.homepage = %q{http://reptile.rubyforge.org/}
+  #s.homepage = %q{Reptile is an easy to use utility that will monitor your MySQL replication, so you can forget about it and focus on the good stuff.  It provides a utility for generate replication reports, and can email if replication appears to be failing.}
   s.post_install_message = %q{PostInstall.txt}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib"]
