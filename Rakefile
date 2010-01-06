@@ -2,23 +2,22 @@ require 'rubygems' unless ENV['NO_RUBYGEMS']
 %w[rake rake/clean fileutils newgem rubigen].each { |f| require f }
 require File.dirname(__FILE__) + '/lib/reptile'
 
-# Generate all the Rake tasks
-# Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.new('reptile', Reptile::VERSION) do |p|
-  p.developer('Nick Stielau', 'nick.stielau@gmail.com')
-  p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
-  p.post_install_message = 'PostInstall.txt'
-  p.rubyforge_name       = p.name
-  p.bin_files            = ["bin/replication_status"]
-  p.summary              = "Cold-blooded MySQL replication monitoring."
-  p.extra_dev_deps = [
-    ['newgem', ">= #{::Newgem::VERSION}"]
-  ]
-  
-  p.clean_globs |= %w[**/.DS_Store tmp *.log]
-  path = (p.rubyforge_name == p.name) ? p.rubyforge_name : "\#{p.rubyforge_name}/\#{p.name}"
-  p.remote_rdoc_dir = File.join(path.gsub(/^#{p.rubyforge_name}\/?/,''), 'rdoc')
-  p.rsync_args = '-av --delete --ignore-errors'
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    gem.name = "reptile"
+    gem.summary = %Q{Cold blooded mysql replication monitoring.}
+    gem.description = %Q{Cold blooded mysql replication monitoring.}
+    gem.email = "nick.stielau@gmail.com"
+    gem.homepage = "http://reptile.rubyforge.org/"
+    gem.authors = ["Nick Stielau"]
+    gem.add_runtime_dependency 'tlsmail', '>= 0'
+    gem.add_runtime_dependency 'active_record', '>= 0'
+    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
 desc "Upload current documentation to Rubyforge"
