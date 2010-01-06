@@ -37,7 +37,11 @@ module Reptile
       master_counts = get_table_counts
 
       deltas= {}
-      master_counts.each do |table, master_count|    
+      master_counts.each do |table, master_count| 
+        if slave_counts[table].nil?
+          puts "Table '#{table}' exists on master but not on slave."
+          next
+        end   
         delta = master_count.first.to_i - slave_counts[table].first.to_i
         deltas[table] = delta
       end

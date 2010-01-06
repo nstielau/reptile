@@ -75,7 +75,7 @@ module Reptile
     end
     
 private
-    
+ 
     # Format the delay (in seconds) as a human-readable string.
     def self.strfdelay(delay)
       seconds = delay % 60

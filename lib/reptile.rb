@@ -7,7 +7,6 @@ require 'rubygems'
 require 'tlsmail'
 require 'net/smtp'
 
-
 require 'reptile/heartbeat'
 require 'reptile/delta_monitor'
 require 'reptile/replication_monitor'
@@ -15,9 +14,3 @@ require 'reptile/status'
 require 'reptile/runner'
 require 'reptile/users'
 require 'reptile/databases'
-
-require 'active_record'
-
-module Reptile
-  VERSION = '0.0.4'
-end
