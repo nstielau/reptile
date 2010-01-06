@@ -12,7 +12,7 @@ begin
     gem.homepage = "http://reptile.rubyforge.org/"
     gem.authors = ["Nick Stielau"]
     gem.add_runtime_dependency 'tlsmail', '>= 0'
-    gem.add_runtime_dependency 'active_record', '>= 0'
+    gem.add_runtime_dependency 'activerecord', '>= 0'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
