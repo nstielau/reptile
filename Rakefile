@@ -1,5 +1,7 @@
 require 'rubygems' unless ENV['NO_RUBYGEMS']
-%w[rake rake/clean fileutils newgem rubigen].each { |f| require f }
+
+require 'rake'
+
 require File.dirname(__FILE__) + '/lib/reptile'
 
 begin
@@ -31,8 +33,5 @@ task :upload_site do
   sh "scp -r webgen_site/* nstielau@rubyforge.org:/var/www/gforge-projects/reptile/"
 end
 
-require 'newgem/tasks' # load /tasks/*.rake
-Dir['tasks/**/*.rake'].each { |t| load t }
-
-# TODO - want other tests/tasks run by default? Add them to the list
-# task :default => [:spec, :features]
+task :test => :check_dependencies
+task :default => :test
