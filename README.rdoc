@@ -2,6 +2,11 @@
 
 Reptile is an easy to use utility that will monitor your MySQL replication, so you can forget about it and focus on the good stuff.  It provides a utility for generate replication reports, and can email if replication appears to be failing.
 
+== STATUS DISCLAIMER:
+
+I'm not sure if anybody uses this.  I PROBABLY WON'T fix a patch you submit.  This, as it is, has been used successfully in production environments.  It's a good idea, but might not work for your particular case, and I make no guarantee that it will.  I certainly hope it does.  Drop me a line, and I'll answer any questions you have.  NCS 8/2010
+
+
 == REQUIREMENTS:
 
 A mysql replication setup.
@@ -33,7 +38,7 @@ Put a config file at /etc/reptile.yml, /etc/reptile/reptile.yml, ./reptile.yml, 
 
 === Setup SQL
 
-Run this SQL to setup the DBs/perms for Reptile.  Using different users, since each user requires significantly different permissions.  
+Run this SQL to setup the DBs/perms for Reptile.  Using different users, since each user requires significantly different permissions.
 
   GRANT REPLICATION SLAVE, REPLICATION CLIENT, SUPER ON *.* TO 'repl'@"localhost" IDENTIFIED BY 'repl_user_pass';
   GRANT REPLICATION SLAVE, REPLICATION CLIENT, SUPER ON *.* TO 'repl'@"MONITOR_HOST_IP" IDENTIFIED BY 'repl_user_pass';
@@ -47,8 +52,8 @@ Run this SQL to setup the DBs/perms for Reptile.  Using different users, since e
   GRANT SELECT, INSERT, UPDATE, ALTER ON replication_monitor.* TO 'heartbeat_user'@"MONITOR_HOST_IP" IDENTIFIED BY 'heartbeat_user_pass';
 
   CREATE TABLE replication_monitor.heartbeats (
-    unix_time INTEGER NOT NULL, 
-    db_time TIMESTAMP NOT NULL, 
+    unix_time INTEGER NOT NULL,
+    db_time TIMESTAMP NOT NULL,
     INDEX time_idx(unix_time)
   )
 
