@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
 require 'optparse'
+
+require 'rubygems'
 require 'reptile'
 
 commands = []
