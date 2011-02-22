@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "bundler", ">= 1.0.0"
 
-  s.add_runtime_dependency "tlsmail", ">= 0.0.1"
   s.add_runtime_dependency "activerecord", ">= 0"
   s.add_runtime_dependency "mixlib-log", ">= 1.2.0"
 end
