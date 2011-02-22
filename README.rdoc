@@ -1,6 +1,6 @@
 = reptile
 
-Reptile is an easy to use utility that will monitor your MySQL replication, so you can forget about it and focus on the good stuff.  It provides a utility for generate replication reports, and can email if replication appears to be failing.
+Reptile is an easy to use utility that will monitor your MySQL replication, so you can forget about it and focus on the good stuff.  It provides a utility for generate replication reports.
 
 == STATUS DISCLAIMER:
 
@@ -19,10 +19,14 @@ Put a config file at /etc/reptile.yml, /etc/reptile/reptile.yml, ./reptile.yml, 
   [nick@s34 ~]$ replication_status -h
   Usage: replication_status [path_to_config_file]
       -h, --help                       Displays this help info
-      -s, --status                     Displays the slave status
-      -d, --diff                       Checks the row count difference between master and slave
-      -r, --report                     Sends a report email
-      -b, --heartbeat                  Checks the heartbeat timestamp difference between master and slave
+          --status                     Displays the slave status
+          --diff                       Checks the row count difference between master and slave
+          --report                     Prints a report
+          --heartbeat                  Checks the heartbeat timestamp difference between master and slave
+          --stop-slaves                Stops all slaves
+          --start-slaves               Starts all slaves
+      -l, --log-level [LEVEL]          Specify log level (debug,info,warn,error,fatal)
+
   [nick@s34 ~]$ replication_status -s
     * a_database slave is up and running
     * b_database slave is up and running
@@ -33,8 +37,10 @@ Put a config file at /etc/reptile.yml, /etc/reptile/reptile.yml, ./reptile.yml, 
   [nick@s34 ~]$ sudo crontab -l
   Password:
   MAILTO="user@example.com"
-  # Use the '-e' arg to only spit out errors, which will be sent out by crontab
-  */15 * * * * replication_status -e
+  # Use the '-l error' arg to only spit out errors, which will be mailed by crontab
+  */15 * * * * replication_status -l error
+  # Or, specify certain checks
+  # */15 * * * * replication_status -l error --status
 
 === Setup SQL
 
@@ -60,28 +66,3 @@ Run this SQL to setup the DBs/perms for Reptile.  Using different users, since e
 == INSTALL:
 
 sudo gem install reptile
-
-== LICENSE:
-
-(The MIT License)
-
-Copyright (c) 2009 Nick Stielau
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
