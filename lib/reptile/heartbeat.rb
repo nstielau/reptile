@@ -38,7 +38,7 @@ module Reptile
     def self.write(name, configs)
       self.connect(configs)
       heartbeat = Heartbeat.create(:unix_time => Time.now.to_i, :db_time => "NOW()")
-      Log.info "Wrote heartbeat to #{name} at #{Time.at(heartbeat.unix_time)}"
+      Log.debug "Wrote heartbeat to #{name} at #{Time.at(heartbeat.unix_time)}"
     end
 
     # Read the most recent heartbeat and return the delay in seconds, or nil if no heartbeat are found.
@@ -61,7 +61,8 @@ module Reptile
       delay = (Time.now - Time.at(heartbeat.unix_time)).round
       #delay = (Time.now - heartbeat.db_time)
 
-      Log.info "Read heartbeat from #{name} at #{Time.at(heartbeat.unix_time)}. The delay is #{strfdelay(delay)}"
+      Log.debug "Read heartbeat from #{name} at #{Time.at(heartbeat.unix_time)}."
+      Log.info "The delay is #{strfdelay(delay)}"
 
       delay
     end
