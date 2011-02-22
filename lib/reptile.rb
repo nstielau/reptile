@@ -6,6 +6,7 @@ require 'rubygems'
 require 'tlsmail'
 require 'net/smtp'
 
+require 'reptile/log'
 require 'reptile/heartbeat'
 require 'reptile/delta_monitor'
 require 'reptile/replication_monitor'
