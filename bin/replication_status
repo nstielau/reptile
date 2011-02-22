@@ -30,13 +30,13 @@ OptionParser.new do |opts|
     commands << 'heartbeat'
   end
   
-  opts.on("-x", "--stop_slaves", "Stops all slaves") do
-    commands << 'stop_slaves'
-  end
-  
-  opts.on("-g", "--start_slaves", "Starts all slaves") do
-    commands << 'start_slaves'
-  end
+  # opts.on("-x", "--stop_slaves", "Stops all slaves") do
+  #   commands << 'stop_slaves'
+  # end
+  #
+  # opts.on("-g", "--start_slaves", "Starts all slaves") do
+  #   commands << 'start_slaves'
+  # end
   
   opts.on("-e", "--errors", "Show only errors.") do
     commands << 'errors'
