@@ -38,6 +38,7 @@ module Reptile
     end
 
     def self.diff_tables
+      Log.info "Checking row counts."      
       unsynced_dbs = 0
 
       databases.databases.each_pair do |name, roles|
@@ -55,6 +56,7 @@ module Reptile
     end
 
     def self.heartbeat
+      Log.info "Checking heartbeats."      
       databases.masters.each_pair do |name, configs|
         Heartbeat.write(name, configs)
       end
@@ -83,6 +85,7 @@ module Reptile
 
     # Checks the status of each slave.
     def self.check_slaves
+      Log.info "Checking slave status."
       databases.slaves.each do |slave_name, slave_configs|
         status = Status.check_slave_status(slave_name, slave_configs)
         Log.info "'#{slave_name}' is '#{status}'"
