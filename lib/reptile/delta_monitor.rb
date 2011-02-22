@@ -1,7 +1,5 @@
-require 'logger'
-
 module Reptile
-  # This monitor compares the row counts for each table for each master and slave.  
+  # This monitor compares the row counts for each table for each master and slave.
   class DeltaMonitor
     # Set the user settings for a user that has global SELECT privilidgess
     def self.user=(user_settings)
@@ -13,20 +11,12 @@ module Reptile
       raise "You need to specify a user!" if @user.nil?
       @user
     end
-  
-    def self.logger=(new_logger)
-      @logger = new_logger  
-    end
-    
-    def self.get_logger
-      @logger ||= Logger.new(STDOUT)
-    end
-  
+
     # Retrieve the active database connection.  Nil of none exists.
     def self.connection
       ActiveRecord::Base.connection
     end
-  
+
     # Compares the row counts for master tables and slave tables
     # Returns a hash of TABLE_NAME => ROW COUNT DELTAs
     def self.diff(db_name, master_configs, slave_configs)
@@ -37,36 +27,36 @@ module Reptile
       master_counts = get_table_counts
 
       deltas= {}
-      master_counts.each do |table, master_count| 
+      master_counts.each do |table, master_count|
         if slave_counts[table].nil?
-          get_logger.error "Table '#{table}' exists on master but not on slave."
+          Log.error "Table '#{table}' exists on master but not on slave."
           next
-        end   
+        end
         delta = master_count.first.to_i - slave_counts[table].first.to_i
         deltas[table] = delta
       end
-    
+
       print_deltas(db_name, deltas, master_configs)
-    
+
       deltas
     rescue Exception => e
-      get_logger.error "Error: Caught #{e}"
-      get_logger.error "DB Name: #{db_name}"
-      get_logger.error "Master Configs: #{master_configs.inspect}"
-      get_logger.error "Slave Configs: #{slave_configs.inspect}"
+      Log.error "Error: Caught #{e}"
+      Log.error "DB Name: #{db_name}"
+      Log.error "Master Configs: #{master_configs.inspect}"
+      Log.error "Slave Configs: #{slave_configs.inspect}"
       raise e
     end
-    
+
     # Prints stats about the differences in number of rows between the master and slave
     def self.print_deltas(db_name, deltas, configs)
       non_zero_deltas = deltas.select{|table, delta| not delta.zero?}
       if non_zero_deltas.size.zero?
-        get_logger.info "Replication counts A-OK for #{db_name} on #{configs['host']} @ #{Time.now}"
+        Log.info "Replication counts A-OK for #{db_name} on #{configs['host']} @ #{Time.now}"
       else
-        get_logger.info "Replication Row Count Deltas for #{db_name} on #{configs['host']} @ #{Time.now}"
-        get_logger.info "There #{non_zero_deltas.size > 1 ? 'are' : 'is'} #{non_zero_deltas.size} #{non_zero_deltas.size > 1 ? 'deltas' : 'delta'}"
+        Log.info "Replication Row Count Deltas for #{db_name} on #{configs['host']} @ #{Time.now}"
+        Log.info "There #{non_zero_deltas.size > 1 ? 'are' : 'is'} #{non_zero_deltas.size} #{non_zero_deltas.size > 1 ? 'deltas' : 'delta'}"
         non_zero_deltas.each do |table, delta|
-          get_logger.info "  #{table} table: #{delta}" unless delta.zero?
+          Log.info "  #{table} table: #{delta}" unless delta.zero?
         end
       end
     end
@@ -78,7 +68,7 @@ module Reptile
       connection.execute('SHOW TABLES').each { |row| tables << row }
       tables
     end
-  
+
     # Returns a hash of TABLE_NAME => # Rows for all tables in current db
     def self.get_table_counts
       tables = get_tables
