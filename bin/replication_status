@@ -6,6 +6,7 @@ require 'rubygems'
 require 'reptile'
 
 Reptile::Log.level = :info
+Mixlib::Log::Formatter.show_time = false
 
 commands = []
 
@@ -17,38 +18,34 @@ OptionParser.new do |opts|
     exit 0
   end
 
-  opts.on("-s", "--status", "Displays the slave status") do
+  opts.on("--status", "Displays the slave status") do
     commands << 'check_slaves'
   end
 
-  opts.on("-d", "--diff", "Checks the row count difference between master and slave") do
+  opts.on("--diff", "Checks the row count difference between master and slave") do
     commands << 'diff_tables'
   end
 
-  opts.on("-r", "--report", "Sends a report email") do
+  opts.on("--report", "Prints a report") do
     commands << 'report'
   end
 
-  opts.on("-b", "--heartbeat", "Checks the heartbeat timestamp difference between master and slave") do
+  opts.on("--heartbeat", "Checks the heartbeat timestamp difference between master and slave") do
     commands << 'heartbeat'
   end
 
-  opts.on("-x", "--stop-slaves", "Stops all slaves") do
+  opts.on("--stop-slaves", "Stops all slaves") do
     commands << 'stop_slaves'
   end
 
-  opts.on("-g", "--start-slaves", "Starts all slaves") do
+  opts.on("--start-slaves", "Starts all slaves") do
     commands << 'start_slaves'
   end
 
   log_levels = [:debug, :info, :warn, :error, :fatal]
-  opts.on("--log-level [LEVEL]", log_levels,
+  opts.on("-l", "--log-level [LEVEL]", log_levels,
           "Specify log level (#{log_levels.join(',')})") do |t|
     Reptile::Log.level = t.to_sym
-  end
-
-  opts.on("-e", "--errors", "Show only errors.") do
-    Reptile::Log.level = :error
   end
 
   begin
