@@ -5,8 +5,8 @@
 
 Gem::Specification.new do |s|
   s.name = %q{reptile}
-  s.version = "0.0.6"
-  s.platform    = Gem::Platform::RUBY
+  s.version = Reptile::VERSION
+  s.platform = Gem::Platform::RUBY
 
   s.authors = ["nick.stielau@gmail.com"]
   s.date = %q{2010-01-05}
