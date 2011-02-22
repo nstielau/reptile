@@ -14,23 +14,23 @@ OptionParser.new do |opts|
     puts opts
     exit 0
   end
-  
+
   opts.on("-s", "--status", "Displays the slave status") do
     commands << 'check_slaves'
   end
-  
+
   opts.on("-d", "--diff", "Checks the row count difference between master and slave") do
     commands << 'diff_tables'
   end
-  
+
   opts.on("-r", "--report", "Sends a report email") do
     commands << 'report'
   end
-  
+
   opts.on("-b", "--heartbeat", "Checks the heartbeat timestamp difference between master and slave") do
     commands << 'heartbeat'
   end
-  
+
   # opts.on("-x", "--stop_slaves", "Stops all slaves") do
   #   commands << 'stop_slaves'
   # end
@@ -38,7 +38,7 @@ OptionParser.new do |opts|
   # opts.on("-g", "--start_slaves", "Starts all slaves") do
   #   commands << 'start_slaves'
   # end
-  
+
   opts.on("-e", "--errors", "Show only errors.") do
     commands << 'errors'
   end
@@ -67,7 +67,7 @@ if config_location_param
   elsif File.exist?(config_location_param) && !File.directory?(config_location_param)
     config_file = config_location_param
   else
-    abort "Please specify the directory containing the '#{config_file_name}' file, or the config file itself." 
+    abort "Please specify the directory containing the '#{config_file_name}' file, or the config file itself."
   end
 else
   config_file_locations.each do |f|
@@ -85,7 +85,7 @@ end
 Reptile::ReplicationMonitor.load_config_file(config_file)
 
 if (commands.include?('start_slaves') || commands.include?('stop_slaves'))
-  Reptile::Runner.send(commands[0]) 
+  Reptile::Runner.send(commands[0])
 else
   (commands.empty? ? ['check_slaves', 'heartbeat', 'diff_tables'] : commands).each do |command|
     Reptile::ReplicationMonitor.send(command)
