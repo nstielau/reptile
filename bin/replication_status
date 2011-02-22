@@ -40,7 +40,7 @@ OptionParser.new do |opts|
   # end
 
   opts.on("-e", "--errors", "Show only errors.") do
-    Log.level = :error
+    Reptile::Log.level = :error
   end
 
   begin
