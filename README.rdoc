@@ -6,6 +6,7 @@ Reptile is an easy to use utility that will monitor your MySQL replication, so y
 
 I'm not sure if anybody uses this.  I PROBABLY WON'T fix a patch you submit.  This, as it is, has been used successfully in production environments.  It's a good idea, but might not work for your particular case, and I make no guarantee that it will.  I certainly hope it does.  Drop me a line, and I'll answer any questions you have.  NCS 8/2010
 
+The --diff check can cause problems on large tables, as it does a lot of SELECT COUNT(*) FROM..'s .
 
 == REQUIREMENTS:
 
