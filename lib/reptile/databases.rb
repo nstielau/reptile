@@ -41,9 +41,7 @@ private
       ActiveRecord::Base.establish_connection(configs)
       ActiveRecord::Base.connection
     rescue Exception => e
-      Log.error "****"
       Log.error "Error connecting to database: #{e}"
-      Log.error "****"
       Log.error configs.inspect
       exit 1
     end
