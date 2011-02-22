@@ -40,7 +40,7 @@ OptionParser.new do |opts|
   # end
 
   opts.on("-e", "--errors", "Show only errors.") do
-    commands << 'errors'
+    Log.level = :error
   end
 
   begin

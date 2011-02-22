@@ -37,13 +37,6 @@ module Reptile
       @users
     end
 
-    def self.errors
-      Log.level = :error
-      check_slaves
-      heartbeat
-      diff_tables
-    end
-
     def self.diff_tables
       unsynced_dbs = 0
 
