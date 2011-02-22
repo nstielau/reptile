@@ -41,6 +41,12 @@ OptionParser.new do |opts|
     commands << 'start_slaves'
   end
 
+  log_levels = [:debug, :info, :warn, :error, :fatal]
+  opts.on("--log-level [LEVEL]", log_levels,
+          "Specify log level (#{log_levels.join(',')})") do |t|
+    Reptile::Log.level = t.to_sym
+  end
+
   opts.on("-e", "--errors", "Show only errors.") do
     Reptile::Log.level = :error
   end
@@ -79,7 +85,7 @@ else
   end
 end
 
-
+Reptile::Log.debug "Loading config from #{config_file}"
 Reptile::ReplicationMonitor.load_config_file(config_file)
 
 if (commands.include?('start_slaves') || commands.include?('stop_slaves'))
