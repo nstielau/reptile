@@ -3,11 +3,11 @@ module Reptile
   # for the master and slave of each particular database.
   class Databases
     attr :databases
-    
+
     def initialize(databases)
       @databases = databases
     end
-    
+
     # returns an array of the master names
     def masters
       @master_configs ||= get_masters
@@ -17,7 +17,7 @@ module Reptile
     def slaves
       @slave_configs ||= get_slaves
     end
-    
+
 private
 
     def get_masters
@@ -26,7 +26,7 @@ private
       masters.each_key{|name| masters[name] = masters[name]['master'] }
       masters
     end
-    
+
     # TODO: make private
     def get_slaves
       dbs = databases.dup
@@ -34,17 +34,17 @@ private
       dbs.each_key{|name| dbs[name] = dbs[name]['slave'] }
       slaves = dbs
     end
-    
-    # Tries to establish a database connection, and returns that connection.  
+
+    # Tries to establish a database connection, and returns that connection.
     # Dumps configs on error
     def self.connect(configs)
       ActiveRecord::Base.establish_connection(configs)
       ActiveRecord::Base.connection
     rescue Exception => e
-      puts "****"
-      puts "Error connecting to database: #{e}"
-      puts "****"
-      puts configs.inspect
+      Log.error "****"
+      Log.error "Error connecting to database: #{e}"
+      Log.error "****"
+      Log.error configs.inspect
       exit 1
     end
   end

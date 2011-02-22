@@ -1,5 +1,5 @@
 module Reptile
-  # The runner class is responsible for running command on each slave.  
+  # The runner class is responsible for running command on each slave.
   # The commands are run sequentially, no guaranteed order (though probably from yml file).
   class Runner
     # Set the user settings for a user that has REPLICATION SLAVE privilidgess
@@ -21,7 +21,7 @@ module Reptile
     # The databases to run commands upon.
     def self.databases
       @databases
-    end    
+    end
 
     # Set the slaves to run command upon.
     def self.slaves=(slaves)
@@ -42,18 +42,16 @@ module Reptile
       raise "You need to specify the slaves to run against!" if @slaves.nil?
       @slaves
     end
-    
-    
-    # Tries to establish a database connection, and returns that connection.  
+
+
+    # Tries to establish a database connection, and returns that connection.
     # Dumps configs on error.
     def self.connect(configs)
       ActiveRecord::Base.establish_connection(configs)
       ActiveRecord::Base.connection
     rescue Exception => e
-      puts "****"
-      puts "Error connecting to database: #{e}"
-      puts "****"
-      puts YAML::dump(configs)
+      Log.error "Error connecting to database: #{e}"
+      Log.error YAML::dump(configs)
       exit 1
     end
 
@@ -61,23 +59,23 @@ module Reptile
     # Takes an optional set of connection paramters to override defaults.
     def self.execute_on_slaves(cmd, configs={})
       slaves.each do |name, slave_configs|
-        puts "Executing #{cmd} on #{name}"
-        puts slave_configs.inspect
+        Log.info "Executing #{cmd} on #{name}"
+        Log.info slave_configs.inspect
         connection = connect(slave_configs.merge(user).merge(configs))
         connection.execute(cmd)
-      end      
+      end
     end
 
     # Execute STOP SLAVE on all slaves;
     def self.stop_slaves
       execute_on_slaves("STOP SLAVE;")
     end
-    
+
     # Execute START SLAVE on all slaves.
     def self.start_slaves
       execute_on_slaves("START SLAVE;")
-    end 
-    
+    end
+
     # Creates users with specific permissions on the different mysql servers, both masters and slaves.
     # Prompts for username and password of an account that has GRANT priviledges.
     def self.setup
@@ -90,21 +88,21 @@ module Reptile
       execute_on_slaves("GRANT select ON *.* TO #{ro_user}@???? INDENTIFIED BY #{ro_password}", grant_user_configs)
       execute_on_slaves("GRANT select ON *.* TO #{repl_user}@???? INDENTIFIED BY #{repl_password}", grant_user_configs)
     end
-    
+
     def self.setup_heartbeat
       # MySQL DTD for setting up Heartbeats.  Change HEARTBEAT_USER, HEARTBEAT_PASS, and MONITORING_BOX to ip of the monitoring server.
       # GRANT SELECT, INSERT, UPDATE, ALTER ON replication_monitor.* TO 'HEARTBEAT_USER'@"localhost" IDENTIFIED BY 'HEARTBEAT_PASS';
       # GRANT SELECT, INSERT, UPDATE, ALTER ON replication_monitor.* TO 'HEARTBEAT_USER'@"MONITORING_BOX" IDENTIFIED BY 'HEARTBEAT_PASS';
-      # 
+      #
       # CREATE DATABASE replication_monitor;
-      # 
+      #
       # CREATE TABLE replication_monitor.heartbeats (
-      #   unix_time INTEGER NOT NULL, 
-      #   db_time TIMESTAMP NOT NULL, 
+      #   unix_time INTEGER NOT NULL,
+      #   db_time TIMESTAMP NOT NULL,
       #   INDEX time_idx(unix_time)
       # )
     end
-    
+
     def self.test_connections
       databases.each do |db|
         databases.roles.each do |role|

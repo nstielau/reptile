@@ -19,7 +19,7 @@ module Reptile
       raise "Please specify a row delta threshold 'row_difference_threshold: 10'" if @configs['row_difference_threshold'].nil?
 
     rescue Errno::EACCES => e
-      puts "Unable to open config file: Permission Denied"
+      Log.error "Unable to open config file: Permission Denied"
     end
 
     # Returns the configs from the replication.yml file
@@ -143,7 +143,7 @@ module Reptile
 
       email.subject = "Daily Replication Report for #{Time.now.strftime('%D')}"
 
-      puts "Generating report email"
+      Log.info "Generating report email"
 
       old_stdout = $stdout
       out = StringIO.new
@@ -171,11 +171,11 @@ module Reptile
       end
       email.body = out.string
 
-      puts "Sending report email"
+      Log.info "Sending report email"
 
       send_email(email)
 
-      puts "Report sent to #{get_recipients}"
+      Log.info "Report sent to #{get_recipients}"
     end
 
     def self.send_exception_email(ex)
@@ -209,7 +209,7 @@ module Reptile
             hdr += "To: #{email_addy} <#{email_addy}>\n"
             hdr += "Subject: #{email.subject}\n\n"
             msg = hdr + email.body
-            puts "Sending to #{email_addy}"
+            Log.info "Sending to #{email_addy}"
             smtp.send_message msg, email.sender,  email_addy
         end
       end
