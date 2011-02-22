@@ -1,4 +1,4 @@
 source :gemcutter
 
-# Specify your gem's dependencies in chef-handlers.gemspec
+# Specify your gem's dependencies in reptile.gemspec
 gemspec
