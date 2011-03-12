@@ -4,7 +4,6 @@ PATH
     reptile (0.1.0)
       activerecord
       mixlib-log (>= 1.2.0)
-      tlsmail (>= 0.0.1)
 
 GEM
   remote: http://rubygems.org/
@@ -23,7 +22,6 @@ GEM
     builder (2.1.2)
     i18n (0.5.0)
     mixlib-log (1.2.0)
-    tlsmail (0.0.1)
     tzinfo (0.3.24)
 
 PLATFORMS
@@ -34,4 +32,3 @@ DEPENDENCIES
   bundler (>= 1.0.0)
   mixlib-log (>= 1.2.0)
   reptile!
-  tlsmail (>= 0.0.1)
