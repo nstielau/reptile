@@ -1,10 +1,15 @@
 = reptile
 
-Reptile is an easy to use utility that will monitor your MySQL replication, so you can forget about it and focus on the good stuff.  It provides a utility for generate replication reports.
+Reptile is an easy to use utility that will monitor your MySQL replication, so you can forget about it and focus on the good stuff.
 
 == STATUS DISCLAIMER:
 
-I'm not sure if anybody uses this.  I PROBABLY WON'T fix a patch you submit.  This, as it is, has been used successfully in production environments.  It's a good idea, but might not work for your particular case, and I make no guarantee that it will.  I certainly hope it does.  Drop me a line, and I'll answer any questions you have.  NCS 8/2010
+I'm not sure if anybody else uses this.  I use it to monitor production MySQL database replication.
+
+I am planning to simplify this significantly, but I won't likely get to them soon.
+I MIGHT fix a patch you submit.  Drop me a line, and I'll answer any questions you have.
+
+NCS 3/2011
 
 The --diff check can cause problems on large tables, as it does a lot of SELECT COUNT(*) FROM..'s .
 
@@ -28,7 +33,7 @@ Put a config file at /etc/reptile.yml, /etc/reptile/reptile.yml, ./reptile.yml, 
           --start-slaves               Starts all slaves
       -l, --log-level [LEVEL]          Specify log level (debug,info,warn,error,fatal)
 
-  [nick@s34 ~]$ replication_status -s
+  [nick@s34 ~]$ replication_status --status
     * a_database slave is up and running
     * b_database slave is up and running
     * c_database slave is up and running
