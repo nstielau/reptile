@@ -1,5 +1,3 @@
-require 'tlsmail'
-
 module Reptile
   # The Status class is responsible for asking a slave database for its status is, 
   # parsing the result, and returning the appropiate status code.

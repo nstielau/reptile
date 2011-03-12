@@ -3,8 +3,6 @@ $:.unshift(File.dirname(__FILE__)) unless $:.include?(File.dirname(__FILE__)) ||
 require 'ostruct'
 require 'openssl'
 require 'rubygems'
-require 'tlsmail'
-require 'net/smtp'
 
 require 'reptile/log'
 require 'reptile/heartbeat'
