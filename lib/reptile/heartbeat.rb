@@ -56,13 +56,9 @@ module Reptile
         return nil;
       end
 
-      # Not sure why we have both, (one is easier to read?).
-      # Use one or the other to calculate delay...
       delay = (Time.now - Time.at(heartbeat.unix_time)).round
-      #delay = (Time.now - heartbeat.db_time)
 
-      Log.debug "Read heartbeat from #{name} at #{Time.at(heartbeat.unix_time)}."
-      Log.info "The delay is #{strfdelay(delay)}"
+      Log.info "The slave delay for '#{name}' is #{strfdelay(delay)}"
 
       delay
     end
