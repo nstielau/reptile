@@ -98,7 +98,7 @@ module Reptile
     end
 
     def self.log_replication_error(options)
-      Log.error = "A replication error occured on #{options[:host]} at #{Time.now}"
+      Log.error "A replication error occured on #{options[:host]} at #{Time.now}"
 
       if options[:delay]
         Log.error "There was a #{options[:delay]} second replication latency, which is greater than the allowed latency of #{configs['delay_threshold_secs']} seconds"
